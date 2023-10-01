@@ -457,10 +457,12 @@ public static unsafe class ImGuiWin32Impl
 
     public static byte LOBYTE(ushort wValue) => (byte)(wValue & 0xff);
 
-    public static IntPtr WndProcHandler(IntPtr hwnd, WindowMessage msg, IntPtr wParam, IntPtr lParam)
+    // Returs true when system message should be captured, false otherwise
+    // Required to not let mouse clicks for example go through ImGui window interactions
+    public static bool WndProcHandler(IntPtr hwnd, WindowMessage msg, IntPtr wParam, IntPtr lParam)
     {
         if (ImGui.GetCurrentContext() == IntPtr.Zero)
-            return IntPtr.Zero;
+            return false;
 
         var io = ImGui.GetIO();
 
@@ -522,7 +524,7 @@ public static unsafe class ImGuiWin32Impl
                     _mouseButtonsDown |= 1 << button;
                     io.AddMouseSourceEvent(mouse_source);
                     io.AddMouseButtonEvent(button, true);
-                    return IntPtr.Zero;
+                    return io.WantCaptureMouse;
                 }
             case WindowMessage.WM_LBUTTONUP:
             case WindowMessage.WM_RBUTTONUP:
@@ -540,14 +542,14 @@ public static unsafe class ImGuiWin32Impl
                         User32.ReleaseCapture();
                     io.AddMouseSourceEvent(mouse_source);
                     io.AddMouseButtonEvent(button, false);
-                    return IntPtr.Zero;
+                    return io.WantCaptureMouse;
                 }
             case WindowMessage.WM_MOUSEWHEEL:
                 io.AddMouseWheelEvent(0.0f, GET_WHEEL_DELTA_WPARAM(wParam) / (float)WHEEL_DELTA);
-                return IntPtr.Zero;
+                return io.WantCaptureMouse;
             case WindowMessage.WM_MOUSEHWHEEL:
                 io.AddMouseWheelEvent(-(float)GET_WHEEL_DELTA_WPARAM(wParam) / WHEEL_DELTA, 0.0f);
-                return IntPtr.Zero;
+                return io.WantCaptureMouse;
             case WindowMessage.WM_KEYDOWN:
             case WindowMessage.WM_KEYUP:
             case WindowMessage.WM_SYSKEYDOWN:
@@ -593,12 +595,12 @@ public static unsafe class ImGuiWin32Impl
                             if (IsVkDown(User32.VirtualKey.VK_RMENU) == is_key_down) { ImGui_ImplWin32_AddKeyEvent(ImGuiKey.RightAlt, is_key_down, User32.VirtualKey.VK_RMENU, scancode); }
                         }
                     }
-                    return IntPtr.Zero;
+                    return io.WantCaptureKeyboard;
                 }
             case WindowMessage.WM_SETFOCUS:
             case WindowMessage.WM_KILLFOCUS:
                 io.AddFocusEvent(msg == WindowMessage.WM_SETFOCUS);
-                return IntPtr.Zero;
+                return false;
             case WindowMessage.WM_CHAR:
                 if (User32.IsWindowUnicode(hwnd))
                 {
@@ -618,20 +620,20 @@ public static unsafe class ImGuiWin32Impl
                     io.AddInputCharacter(wideBufferChar);
                     Marshal.FreeHGlobal(wideBuffer);
                 }
-                return IntPtr.Zero;
+                return io.WantCaptureKeyboard;
             case WindowMessage.WM_SETCURSOR:
                 const int HTCLIENT = 1;
                 // This is required to restore cursor when transitioning from e.g resize borders to client area.
                 if (LOWORD(lParam) == HTCLIENT && ImGui_ImplWin32_UpdateMouseCursor())
-                    return new(1);
-                return IntPtr.Zero;
+                    return true;
+                return false;
             case WindowMessage.WM_DEVICECHANGE:
                 const int DBT_DEVNODES_CHANGED = 0x0007;
                 if ((uint)wParam == DBT_DEVNODES_CHANGED)
                     _wantUpdateHasGamepad = true;
-                return IntPtr.Zero;
+                return false;
         }
-        return IntPtr.Zero;
+        return false;
     }
 
     static bool _IsWindowsVersionOrGreater(short major, short minor, short unused)

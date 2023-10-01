@@ -179,14 +179,15 @@ internal static class ImGuiDX12
 
     private static unsafe IntPtr WndProcHandler(IntPtr windowHandle, WindowMessage message, IntPtr wParam, IntPtr lParam)
     {
-        ImGuiWin32Impl.WndProcHandler(windowHandle, message, wParam, lParam);
-
         if (message == WindowMessage.WM_KEYUP && (VirtualKey)wParam == DearImGuiInjection.CursorVisibilityToggle.Get())
         {
             SaveOrRestoreCursorPosition();
 
             DearImGuiInjection.ToggleCursor();
         }
+
+        if (DearImGuiInjection.IsCursorVisible && ImGuiWin32Impl.WndProcHandler(windowHandle, message, wParam, lParam))
+            return IntPtr.Zero;
 
         return User32.CallWindowProc(_originalWindowProc, windowHandle, message, wParam, lParam);
     }
