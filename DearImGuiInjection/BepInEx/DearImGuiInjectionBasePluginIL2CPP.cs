@@ -45,7 +45,15 @@ internal class DearImGuiInjectionBasePluginIL2CPP : BasePlugin
             Config.Bind("Keybinds", "CursorVisibility",
             DearImGuiInjection.CursorVisibilityToggleDefault,
             "Key for switching the cursor visibility."));
-        DearImGuiInjection.Init(imguiIniConfigDirectoryPath, assetsFolder, cursorVisibilityConfig);
+        var fontGlyphRangeType = new BepInExConfigEntry<FontGlyphRangeType>(
+            Config.Bind("Font Glyph Range", "FontGlyphRangeType",
+            DearImGuiInjection.FontGlyphRangeTypeDefault,
+            "Font glyph range type for the custom font."));
+        var fontName = new BepInExConfigEntry<string>(
+            Config.Bind("Font Name", "FontFileName",
+            DearImGuiInjection.FontFileNameDefault,
+            "File name of the custom font."));
+        DearImGuiInjection.Init(imguiIniConfigDirectoryPath, assetsFolder, cursorVisibilityConfig, fontGlyphRangeType, fontName);
         SetupIgnoreUIObjectsWhenImGuiCursorIsVisible();
 
 

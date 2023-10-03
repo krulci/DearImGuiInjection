@@ -36,6 +36,18 @@ public static class DearImGuiInjection
     public static IConfigEntry<VirtualKey> CursorVisibilityToggle { get; internal set; }
     internal const VirtualKey CursorVisibilityToggleDefault = VirtualKey.Insert;
 
+    /// <summary>
+    /// Key for setting font glyph range type.
+    /// </summary>
+    public static IConfigEntry<FontGlyphRangeType> FontGlyphRangeTypeValue { get; internal set; }
+    internal const FontGlyphRangeType FontGlyphRangeTypeDefault = FontGlyphRangeType.ChineseSimplifiedCommon;
+
+    /// <summary>
+    /// Key for setting font file name.
+    /// </summary>
+    public static IConfigEntry<string> FontFileNameValue { get; internal set; }
+    internal const string FontFileNameDefault = "Microsoft Yahei.ttf";
+
     public static ImGuiStyle Style { get; private set; }
 
     /// <summary>
@@ -44,13 +56,15 @@ public static class DearImGuiInjection
     public static event Action Render { add { RenderAction += value; } remove { RenderAction -= value; } }
     internal static Action RenderAction;
 
-    internal static void Init(string imguiIniConfigDirectoryPath, string assetsFolder, IConfigEntry<VirtualKey> cursorVisibilityConfig)
+    internal static void Init(string imguiIniConfigDirectoryPath, string assetsFolder, IConfigEntry<VirtualKey> cursorVisibilityConfig, IConfigEntry<FontGlyphRangeType> fontGlyphRangeType, IConfigEntry<string> fontName)
     {
         if (RendererFinder.RendererFinder.Init())
         {
             ImGuiIniConfigPath = Path.Combine(imguiIniConfigDirectoryPath, IniFileName);
             AssetsFolderPath = assetsFolder;
             CursorVisibilityToggle = cursorVisibilityConfig;
+            FontGlyphRangeTypeValue = fontGlyphRangeType;
+            FontFileNameValue = fontName;
 
             InitImplementationFromRendererKind(RendererFinder.RendererFinder.RendererKind);
         }
