@@ -265,7 +265,7 @@ public static class ImGuiDX11Impl
         // OM
         backup.BlendState = ctx.OutputMerger.GetBlendState(out backup.BlendFactor, out backup.SampleMask);
         backup.DepthStencilState = ctx.OutputMerger.GetDepthStencilState(out backup.DepthStencilRef);
-        backup.RenderTargetViews = ctx.OutputMerger.GetRenderTargets(OutputMergerStage.SimultaneousRenderTargetCount, out backup.DepthStencilView);
+        //backup.RenderTargetViews = ctx.OutputMerger.GetRenderTargets(OutputMergerStage.SimultaneousRenderTargetCount, out backup.DepthStencilView);
 
         // VS
         backup.VS = ctx.VertexShader.Get();
@@ -323,7 +323,7 @@ public static class ImGuiDX11Impl
         // OM
         ctx.OutputMerger.SetBlendState(old.BlendState, old.BlendFactor, old.SampleMask);
         ctx.OutputMerger.SetDepthStencilState(old.DepthStencilState, old.DepthStencilRef);
-        ctx.OutputMerger.SetRenderTargets(old.DepthStencilView, old.RenderTargetViews);
+        //ctx.OutputMerger.SetRenderTargets(old.DepthStencilView, old.RenderTargetViews);
 
         // VS
         ctx.VertexShader.Set(old.VS);
