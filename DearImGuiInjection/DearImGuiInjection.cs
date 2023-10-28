@@ -34,7 +34,7 @@ public static class DearImGuiInjection
     /// Key for switching the cursor visibility.
     /// </summary>
     public static IConfigEntry<VirtualKey> CursorVisibilityToggle { get; internal set; }
-    internal const VirtualKey CursorVisibilityToggleDefault = VirtualKey.Insert;
+    internal const VirtualKey CursorVisibilityToggleDefault = VirtualKey.F4;
 
     /// <summary>
     /// Key for setting font glyph range type.
@@ -46,7 +46,7 @@ public static class DearImGuiInjection
     /// Key for setting font file name.
     /// </summary>
     public static IConfigEntry<string> FontFileNameValue { get; internal set; }
-    internal const string FontFileNameDefault = "Microsoft Yahei.ttf";
+    internal const string FontFileNameDefault = "方正准圆_GBK.ttf";
 
     public static ImGuiStyle Style { get; private set; }
 
