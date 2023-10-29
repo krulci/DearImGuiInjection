@@ -37,16 +37,22 @@ public static class DearImGuiInjection
     internal const VirtualKey CursorVisibilityToggleDefault = VirtualKey.F4;
 
     /// <summary>
-    /// Key for setting font glyph range type.
+    /// Key for setting Chinese Simplified Common font file name.
     /// </summary>
-    public static IConfigEntry<FontGlyphRangeType> FontGlyphRangeTypeValue { get; internal set; }
-    internal const FontGlyphRangeType FontGlyphRangeTypeDefault = FontGlyphRangeType.ChineseSimplifiedCommon;
+    public static IConfigEntry<string> ChineseSimplifiedFontFileNameValue { get; internal set; }
+    internal const string ChineseSimplifiedFontFileNameDefault = "方正准圆_GBK.ttf";
 
     /// <summary>
-    /// Key for setting font file name.
+    /// Key for setting Chinese Simplified Common font file name.
     /// </summary>
-    public static IConfigEntry<string> FontFileNameValue { get; internal set; }
-    internal const string FontFileNameDefault = "方正准圆_GBK.ttf";
+    public static IConfigEntry<string> ChineseFullFontFileNameValue { get; internal set; }
+    internal const string ChineseFullFontFileNameDefault = "方正准圆_GBK.ttf";
+
+    /// <summary>
+    /// Key for setting Japanese font file name.
+    /// </summary>
+    public static IConfigEntry<string> JapaneseFontFileNameValue { get; internal set; }
+    internal const string JapaneseFontFileNameDefault = "方正准圆_GBK.ttf";
 
     public static ImGuiStyle Style { get; private set; }
 
@@ -56,15 +62,16 @@ public static class DearImGuiInjection
     public static event Action Render { add { RenderAction += value; } remove { RenderAction -= value; } }
     internal static Action RenderAction;
 
-    internal static void Init(string imguiIniConfigDirectoryPath, string assetsFolder, IConfigEntry<VirtualKey> cursorVisibilityConfig, IConfigEntry<FontGlyphRangeType> fontGlyphRangeType, IConfigEntry<string> fontName)
+    internal static void Init(string imguiIniConfigDirectoryPath, string assetsFolder, IConfigEntry<VirtualKey> cursorVisibilityConfig, IConfigEntry<string> chineseSimplifiedFontName, IConfigEntry<string> chineseFullFontName, IConfigEntry<string> japaneseFontName)
     {
         if (RendererFinder.RendererFinder.Init())
         {
             ImGuiIniConfigPath = Path.Combine(imguiIniConfigDirectoryPath, IniFileName);
             AssetsFolderPath = assetsFolder;
             CursorVisibilityToggle = cursorVisibilityConfig;
-            FontGlyphRangeTypeValue = fontGlyphRangeType;
-            FontFileNameValue = fontName;
+            ChineseSimplifiedFontFileNameValue = chineseSimplifiedFontName;
+            ChineseFullFontFileNameValue = chineseFullFontName;
+            JapaneseFontFileNameValue = japaneseFontName;
 
             InitImplementationFromRendererKind(RendererFinder.RendererFinder.RendererKind);
         }

@@ -102,39 +102,17 @@ public static class DearImGuiTheme
 
     private static unsafe void SetupCustomFont()
     {
-        var fontPath = Path.Combine(DearImGuiInjection.AssetsFolderPath, "Fonts", DearImGuiInjection.FontFileNameValue.Get());
+        var ChineseSimplifiedCommonFontPath = Path.Combine(DearImGuiInjection.AssetsFolderPath, "Fonts", DearImGuiInjection.ChineseSimplifiedFontFileNameValue.Get());
+        var ChineseFullFontPath = Path.Combine(DearImGuiInjection.AssetsFolderPath, "Fonts", DearImGuiInjection.ChineseFullFontFileNameValue.Get());
+        var JapaneseFontPath = Path.Combine(DearImGuiInjection.AssetsFolderPath, "Fonts", DearImGuiInjection.JapaneseFontFileNameValue.Get());
 
-        ImFontPtr font;
-        FontGlyphRangeType glyphRange = DearImGuiInjection.FontGlyphRangeTypeValue.Get();
-        switch (glyphRange)
-        {
-            case FontGlyphRangeType.English:
-                font = ImGui.GetIO().Fonts.AddFontFromFileTTF(fontPath, 15, null, ImGui.GetIO().Fonts.GetGlyphRangesDefault());
-                break;
-            case FontGlyphRangeType.ChineseSimplifiedCommon:
-                font = ImGui.GetIO().Fonts.AddFontFromFileTTF(fontPath, 15, null, ImGui.GetIO().Fonts.GetGlyphRangesChineseSimplifiedCommon());
-                break;
-            case FontGlyphRangeType.ChineseFull:
-                font = ImGui.GetIO().Fonts.AddFontFromFileTTF(fontPath, 15, null, ImGui.GetIO().Fonts.GetGlyphRangesChineseFull());
-                break;
-            case FontGlyphRangeType.Japanese:
-                font = ImGui.GetIO().Fonts.AddFontFromFileTTF(fontPath, 15, null, ImGui.GetIO().Fonts.GetGlyphRangesJapanese());
-                break;
-            case FontGlyphRangeType.Korean:
-                font = ImGui.GetIO().Fonts.AddFontFromFileTTF(fontPath, 15, null, ImGui.GetIO().Fonts.GetGlyphRangesKorean());
-                break;
-            case FontGlyphRangeType.Thai:
-                font = ImGui.GetIO().Fonts.AddFontFromFileTTF(fontPath, 15, null, ImGui.GetIO().Fonts.GetGlyphRangesThai());
-                break;
-            case FontGlyphRangeType.Vietnamese:
-                font = ImGui.GetIO().Fonts.AddFontFromFileTTF(fontPath, 15, null, ImGui.GetIO().Fonts.GetGlyphRangesVietnamese());
-                break;
-            case FontGlyphRangeType.Cyrillic:
-                font = ImGui.GetIO().Fonts.AddFontFromFileTTF(fontPath, 15, null, ImGui.GetIO().Fonts.GetGlyphRangesCyrillic());
-                break;
-            default:
-                throw new Exception($"Font Glyph Range (${glyphRange}) is not supported.");
-        }
-        ImGui.GetIO().NativePtr->FontDefault = font;
+        ImGui.GetIO().Fonts.Clear();
+        ImFontConfig* config = ImGuiNative.ImFontConfig_ImFontConfig();
+        config->MergeMode = 0;
+        ImGui.GetIO().Fonts.AddFontFromFileTTF(ChineseSimplifiedCommonFontPath, 15.0f, config, ImGui.GetIO().Fonts.GetGlyphRangesChineseFull());
+        config->MergeMode = 1;
+        ImGui.GetIO().Fonts.AddFontFromFileTTF(ChineseFullFontPath, 15.0f, config, ImGui.GetIO().Fonts.GetGlyphRangesChineseFull());
+        ImGui.GetIO().Fonts.AddFontFromFileTTF(JapaneseFontPath, 15.0f, config, ImGui.GetIO().Fonts.GetGlyphRangesJapanese());
+        ImGui.GetIO().Fonts.Build();
     }
 }

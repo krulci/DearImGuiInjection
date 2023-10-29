@@ -45,15 +45,19 @@ internal class DearImGuiInjectionBasePluginIL2CPP : BasePlugin
             Config.Bind("Keybinds", "CursorVisibility",
             DearImGuiInjection.CursorVisibilityToggleDefault,
             "Key for switching the cursor visibility."));
-        var fontGlyphRangeType = new BepInExConfigEntry<FontGlyphRangeType>(
-            Config.Bind("Font Glyph Range", "FontGlyphRangeType",
-            DearImGuiInjection.FontGlyphRangeTypeDefault,
-            "Font glyph range type for the custom font."));
-        var fontName = new BepInExConfigEntry<string>(
-            Config.Bind("Font Name", "FontFileName",
-            DearImGuiInjection.FontFileNameDefault,
-            "File name of the custom font."));
-        DearImGuiInjection.Init(imguiIniConfigDirectoryPath, assetsFolder, cursorVisibilityConfig, fontGlyphRangeType, fontName);
+        var chineseSimplifiedFontName = new BepInExConfigEntry<string>(
+            Config.Bind("Chinese Simplified Common Font Name", "ChineseSimplifiedFontName",
+            DearImGuiInjection.ChineseSimplifiedFontFileNameDefault,
+            "File name of the custom Chinese Simplified Common font."));
+        var chineseFullFontName = new BepInExConfigEntry<string>(
+            Config.Bind("Chinese Full Font Name", "ChineseFullFontName",
+            DearImGuiInjection.ChineseFullFontFileNameDefault,
+            "File name of the custom Chinese Full font."));
+        var japaneseFontName = new BepInExConfigEntry<string>(
+            Config.Bind("Japanese Font Name", "JapaneseFontName",
+            DearImGuiInjection.JapaneseFontFileNameDefault,
+            "File name of the custom Japanese font."));
+        DearImGuiInjection.Init(imguiIniConfigDirectoryPath, assetsFolder, cursorVisibilityConfig, chineseSimplifiedFontName, chineseFullFontName, japaneseFontName);
         SetupIgnoreUIObjectsWhenImGuiCursorIsVisible();
 
 
