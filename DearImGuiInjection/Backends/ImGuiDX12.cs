@@ -186,9 +186,6 @@ internal static class ImGuiDX12
             DearImGuiInjection.ToggleCursor();
         }
 
-        if (message == WindowMessage.WM_SIZING)
-            return IntPtr.Zero;
-
         if (DearImGuiInjection.IsCursorVisible && ImGuiWin32Impl.WndProcHandler(windowHandle, message, wParam, lParam))
             return IntPtr.Zero;
 
