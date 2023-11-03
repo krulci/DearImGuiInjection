@@ -155,7 +155,6 @@ public static class DearImGuiInjection
     {
         if (IsCursorVisible)
         {
-            IO.MouseDrawCursor = true;
             IO.ConfigFlags &= ~ImGuiConfigFlags.NoMouse;
         }
         else
