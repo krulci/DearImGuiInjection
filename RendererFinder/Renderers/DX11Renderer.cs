@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using CppInterop;
 using Reloaded.Hooks;
 using SharpDX.Direct3D;
@@ -44,6 +45,16 @@ public enum IDXGISwapChain
 
 public class DX11Renderer : IRenderer
 {
+    [DllImport("GameAssembly")]
+    private static extern void il2cpp_thread_attach(IntPtr domain);
+    [DllImport("GameAssembly")]
+    private static extern IntPtr il2cpp_domain_get();
+
+    public static void AttachThread()
+    {
+        il2cpp_thread_attach(il2cpp_domain_get());
+    }
+
     // https://github.com/BepInEx/BepInEx/blob/master/Runtimes/Unity/BepInEx.Unity.IL2CPP/Hook/INativeDetour.cs#L54
     // Workaround for CoreCLR collecting all delegates
     private static List<object> _cache = new();
@@ -101,6 +112,7 @@ public class DX11Renderer : IRenderer
             _cache.Add(_swapChainPresentHookDelegate);
 
             _swapChainPresentHook = new(_swapChainPresentHookDelegate, swapChainPresentFunctionPtr);
+            
             _swapChainPresentHook.Activate();
         }
 
@@ -108,6 +120,7 @@ public class DX11Renderer : IRenderer
             _cache.Add(_swapChainResizeBuffersHookDelegate);
 
             _swapChainResizeBuffersHook = new(_swapChainResizeBuffersHookDelegate, swapChainResizeBuffersFunctionPtr);
+
             _swapChainResizeBuffersHook.Activate();
         }
 
@@ -127,6 +140,7 @@ public class DX11Renderer : IRenderer
 
     private static IntPtr SwapChainPresentHook(IntPtr self, uint syncInterval, uint flags)
     {
+        AttachThread();
         var swapChain = new SwapChain(self);
 
         if (_onPresentAction != null)
@@ -149,6 +163,7 @@ public class DX11Renderer : IRenderer
 
     private static IntPtr SwapChainResizeBuffersHook(IntPtr swapchainPtr, uint bufferCount, uint width, uint height, Format newFormat, uint swapchainFlags)
     {
+        AttachThread();
         var swapChain = new SwapChain(swapchainPtr);
 
         if (_preResizeBuffers != null)

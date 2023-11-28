@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using CppInterop;
 using Reloaded.Hooks;
 using SharpDX.Direct3D12;
@@ -10,6 +11,16 @@ namespace RendererFinder.Renderers;
 
 public class DX12Renderer : IRenderer
 {
+    [DllImport("GameAssembly")]
+    private static extern void il2cpp_thread_attach(IntPtr domain);
+    [DllImport("GameAssembly")]
+    private static extern IntPtr il2cpp_domain_get();
+
+    public static void AttachThread()
+    {
+        il2cpp_thread_attach(il2cpp_domain_get());
+    }
+
     // https://github.com/BepInEx/BepInEx/blob/master/Runtimes/Unity/BepInEx.Unity.IL2CPP/Hook/INativeDetour.cs#L54
     // Workaround for CoreCLR collecting all delegates
     private static readonly List<object> _cache = new();
@@ -146,6 +157,7 @@ public class DX12Renderer : IRenderer
 
     private static IntPtr SwapChainPresentHook(IntPtr self, uint syncInterval, uint flags, IntPtr presentParameters)
     {
+        AttachThread();
         var swapChain = new SwapChain3(self);
 
         if (_onPresentAction != null)
@@ -168,6 +180,7 @@ public class DX12Renderer : IRenderer
 
     private static IntPtr SwapChainResizeBuffersHook(IntPtr swapchainPtr, int bufferCount, int width, int height, int newFormat, int swapchainFlags)
     {
+        AttachThread();
         var swapChain = new SwapChain3(swapchainPtr);
 
         if (_preResizeBuffers != null)
