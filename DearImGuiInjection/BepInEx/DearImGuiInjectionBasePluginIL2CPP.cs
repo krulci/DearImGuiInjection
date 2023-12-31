@@ -87,7 +87,7 @@ internal class DearImGuiInjectionBasePluginIL2CPP : BasePlugin
 
     public static bool IgnoreUIObjectsWhenImGuiCursorIsVisible()
     {
-        return !DearImGuiInjection.IsCursorVisible;
+        return !false;
     }
 
     private void OnDestroy()
