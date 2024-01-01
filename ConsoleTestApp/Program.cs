@@ -168,7 +168,7 @@ static void CreateRelease(DirectoryInfo solutionDirectory, string configuration)
         var fileName = "cimgui.dll";
         File.Copy(
             Path.Combine(solutionDirectory.FullName, "libs", "cimgui", $"win-{architecture}", fileName),
-            Path.Combine(architectureReleaseDirectory, "cnative.dll"));
+            Path.Combine(architectureReleaseDirectory, (configuration != "net6") ? "cimgui.dll" : "cnative.dll"));
 
         CopyAssetsDirectoryToReleaseDirectory(solutionDirectory, architectureReleaseDirectory);
     }

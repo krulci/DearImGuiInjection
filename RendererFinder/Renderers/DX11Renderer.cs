@@ -45,6 +45,8 @@ public enum IDXGISwapChain
 
 public class DX11Renderer : IRenderer
 {
+#if NETSTANDARD2_0 || NET462
+#else
     [DllImport("GameAssembly")]
     private static extern void il2cpp_thread_attach(IntPtr domain);
     [DllImport("GameAssembly")]
@@ -54,6 +56,7 @@ public class DX11Renderer : IRenderer
     {
         il2cpp_thread_attach(il2cpp_domain_get());
     }
+#endif
 
     // https://github.com/BepInEx/BepInEx/blob/master/Runtimes/Unity/BepInEx.Unity.IL2CPP/Hook/INativeDetour.cs#L54
     // Workaround for CoreCLR collecting all delegates
@@ -140,7 +143,10 @@ public class DX11Renderer : IRenderer
 
     private static IntPtr SwapChainPresentHook(IntPtr self, uint syncInterval, uint flags)
     {
+#if NETSTANDARD2_0 || NET462
+#else
         AttachThread();
+#endif
         var swapChain = new SwapChain(self);
 
         if (_onPresentAction != null)
@@ -163,7 +169,10 @@ public class DX11Renderer : IRenderer
 
     private static IntPtr SwapChainResizeBuffersHook(IntPtr swapchainPtr, uint bufferCount, uint width, uint height, Format newFormat, uint swapchainFlags)
     {
+#if NETSTANDARD2_0 || NET462
+#else
         AttachThread();
+#endif
         var swapChain = new SwapChain(swapchainPtr);
 
         if (_preResizeBuffers != null)
