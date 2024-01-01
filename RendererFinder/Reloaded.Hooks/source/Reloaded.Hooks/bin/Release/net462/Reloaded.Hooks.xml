@@ -1,0 +1,1195 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Reloaded.Hooks</name>
+    </assembly>
+    <members>
+        <member name="T:Reloaded.Hooks.AsmHook">
+            <summary>
+            A more barebones Cheat Engine-like hook for advanced scenarios.
+            </summary>
+        </member>
+        <member name="P:Reloaded.Hooks.AsmHook.IsEnabled">
+            <inheritdoc />
+        </member>
+        <member name="M:Reloaded.Hooks.AsmHook.#ctor(System.String[],System.UIntPtr,Reloaded.Hooks.Definitions.Enums.AsmHookBehaviour,System.Int32)">
+            <summary>
+            Creates a cheat engine style hook, replacing instruction(s) with a JMP to a user provided set of ASM instructions (and optionally the original ones).
+            </summary>
+            <param name="asmCode">
+                The assembly code to execute, in FASM syntax.
+                (Should start with use32/use64)
+            </param>
+            <param name="functionAddress">The address of the function or mid-function to hook.</param>
+            <param name="behaviour">Defines what should be done with the original code that was replaced with the JMP instruction.</param>
+            <param name="hookLength">Optional explicit length of hook. Use only in rare cases where auto-length check overflows a jmp/call opcode.</param>
+        </member>
+        <member name="M:Reloaded.Hooks.AsmHook.#ctor(System.String,System.UIntPtr,Reloaded.Hooks.Definitions.Enums.AsmHookBehaviour,System.Int32)">
+            <summary>
+            Creates a cheat engine style hook, replacing instruction(s) with a JMP to a user provided set of ASM instructions (and optionally the original ones).
+            </summary>
+            <param name="asmCode">
+                The assembly code to execute, in FASM syntax.
+                (Should start with use32/use64)
+            </param>
+            <param name="functionAddress">The address of the function or mid-function to hook.</param>
+            <param name="behaviour">Defines what should be done with the original code that was replaced with the JMP instruction.</param>
+            <param name="hookLength">Optional explicit length of hook. Use only in rare cases where auto-length check overflows a jmp/call opcode.</param>
+        </member>
+        <member name="M:Reloaded.Hooks.AsmHook.#ctor(System.Byte[],System.UIntPtr,Reloaded.Hooks.Definitions.Enums.AsmHookBehaviour,System.Int32)">
+            <summary>
+            Creates a cheat engine style hook, replacing instruction(s) with a JMP to a user provided set of ASM instructions (and optionally the original ones).
+            </summary>
+            <param name="asmCode">The assembly code to execute, precompiled.</param>
+            <param name="functionAddress">The address of the function or mid-function to hook.</param>
+            <param name="behaviour">Defines what should be done with the original code that was replaced with the JMP instruction.</param>
+            <param name="hookLength">Optional explicit length of hook. Use only in rare cases where auto-length check overflows a jmp/call opcode.</param>
+        </member>
+        <member name="M:Reloaded.Hooks.AsmHook.#ctor(System.String[],System.UIntPtr,Reloaded.Hooks.Definitions.AsmHookOptions)">
+            <summary>
+            Creates a cheat engine style hook, replacing instruction(s) with a JMP to a user provided set of ASM instructions (and optionally the original ones).
+            </summary>
+            <param name="asmCode">
+                The assembly code to execute, in FASM syntax.
+                (Should start with use32/use64)
+            </param>
+            <param name="functionAddress">The address of the function or mid-function to hook.</param>
+            <param name="options">The options used for creating the assembly hook.</param>
+        </member>
+        <member name="M:Reloaded.Hooks.AsmHook.#ctor(System.String,System.UIntPtr,Reloaded.Hooks.Definitions.AsmHookOptions)">
+            <summary>
+            Creates a cheat engine style hook, replacing instruction(s) with a JMP to a user provided set of ASM instructions (and optionally the original ones).
+            </summary>
+            <param name="asmCode">
+                The assembly code to execute, in FASM syntax.
+            </param>
+            <param name="functionAddress">The address of the function or mid-function to hook.</param>
+            <param name="options">The options used for creating the assembly hook.</param>
+        </member>
+        <member name="M:Reloaded.Hooks.AsmHook.#ctor(System.Byte[],System.UIntPtr,Reloaded.Hooks.Definitions.AsmHookOptions)">
+            <summary>
+            Creates a cheat engine style hook, replacing instruction(s) with a JMP to a user provided set of ASM instructions (and optionally the original ones).
+            </summary>
+            <param name="asmCode">The assembly code to execute, precompiled.</param>
+            <param name="functionAddress">The address of the function or mid-function to hook.</param>
+            <param name="options">The options used for creating the assembly hook.</param>
+        </member>
+        <member name="M:Reloaded.Hooks.AsmHook.Activate">
+            <inheritdoc />
+        </member>
+        <member name="M:Reloaded.Hooks.AsmHook.Enable">
+            <inheritdoc />
+        </member>
+        <member name="M:Reloaded.Hooks.AsmHook.Disable">
+            <inheritdoc />
+        </member>
+        <member name="F:Reloaded.Hooks.Constants.MaxAbsJmpSize">
+            <summary>
+            Maximum size of a jmp instruction. [Mnemonic: jmp qword [qword 0xFFFFFFFF]]
+            </summary>
+        </member>
+        <member name="T:Reloaded.Hooks.Function`1">
+            <summary>
+            Class that encapsulates a singular function, allowing for actions to be directly performed on that function.
+            </summary>
+        </member>
+        <member name="P:Reloaded.Hooks.Function`1.Address">
+            <inheritdoc />
+        </member>
+        <member name="P:Reloaded.Hooks.Function`1.Hooks">
+            <inheritdoc />
+        </member>
+        <member name="M:Reloaded.Hooks.Function`1.#ctor(System.UIntPtr,Reloaded.Hooks.Definitions.IReloadedHooks)">
+            <summary>
+            Encapsulates a function.
+            </summary>
+            <param name="address">The address of the function in question.</param>
+            <param name="hooks">Provides the hooking capability for this class.</param>
+        </member>
+        <member name="M:Reloaded.Hooks.Function`1.Hook(`0,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:Reloaded.Hooks.Function`1.Hook(`0)">
+            <inheritdoc />
+        </member>
+        <member name="M:Reloaded.Hooks.Function`1.Hook(System.Void*,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:Reloaded.Hooks.Function`1.Hook(System.Void*)">
+            <inheritdoc />
+        </member>
+        <member name="M:Reloaded.Hooks.Function`1.Hook(System.Type,System.String,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:Reloaded.Hooks.Function`1.Hook(System.Type,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Reloaded.Hooks.Function`1.HookAs``1(System.Void*,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:Reloaded.Hooks.Function`1.HookAs``1(System.Void*)">
+            <inheritdoc />
+        </member>
+        <member name="M:Reloaded.Hooks.Function`1.HookAs``1(System.Type,System.String,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:Reloaded.Hooks.Function`1.HookAs``1(System.Type,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:Reloaded.Hooks.Function`1.GetWrapper">
+            <inheritdoc />
+        </member>
+        <member name="M:Reloaded.Hooks.Function`1.GetWrapper(System.IntPtr@)">
+            <inheritdoc />
+        </member>
+        <member name="M:Reloaded.Hooks.Function`1.MakeAsmHook(System.String[],Reloaded.Hooks.Definitions.Enums.AsmHookBehaviour,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:Reloaded.Hooks.Function`1.MakeAsmHook(System.Byte[],Reloaded.Hooks.Definitions.Enums.AsmHookBehaviour,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="P:Reloaded.Hooks.Hook`1.IsHookEnabled">
+            <inheritdoc />
+        </member>
+        <member name="P:Reloaded.Hooks.Hook`1.IsHookActivated">
+            <inheritdoc />
+        </member>
+        <member name="P:Reloaded.Hooks.Hook`1.OriginalFunction">
+            <inheritdoc />
+        </member>
+        <member name="P:Reloaded.Hooks.Hook`1.OriginalFunctionAddress">
+            <inheritdoc />
+        </member>
+        <member name="P:Reloaded.Hooks.Hook`1.OriginalFunctionWrapperAddress">
+            <inheritdoc />
+        </member>
+        <member name="P:Reloaded.Hooks.Hook`1.ReverseWrapper">
+            <inheritdoc />
+        </member>
+        <member name="M:Reloaded.Hooks.Hook`1.#ctor(`0,System.UIntPtr,System.Int32,Reloaded.Hooks.Definitions.FunctionHookOptions)">
+            <summary>
+            Creates a hook for a function at a given address.
+            </summary>
+            <param name="function">The function to detour the original function to.</param>
+            <param name="functionAddress">The address of the function to hook.</param>
+            <param name="minHookLength">Optional explicit length of hook. Use only in rare cases where auto-length check overflows a jmp/call opcode.</param>
+            <param name="options">Options which control the hook generation procedure.</param>
+        </member>
+        <member name="M:Reloaded.Hooks.Hook`1.#ctor(System.Void*,System.UIntPtr,System.Int32,Reloaded.Hooks.Definitions.FunctionHookOptions)">
+            <summary>
+            Creates a hook for a function at a given address.
+            </summary>
+            <param name="targetAddress">Address of the function to detour the original function to.</param>
+            <param name="functionAddress">The address of the function to hook.</param>
+            <param name="minHookLength">Optional explicit length of hook. Use only in rare cases where auto-length check overflows a jmp/call opcode.</param>
+            <param name="options">Options which control the hook generation procedure.</param>
+        </member>
+        <member name="M:Reloaded.Hooks.Hook`1.CreateHook(System.UIntPtr,System.Int32,Reloaded.Hooks.Definitions.FunctionHookOptions)">
+            <summary>
+            Creates a hook for a function at a given address.
+            </summary>
+            <param name="functionAddress">The address of the function to hook.</param>
+            <param name="minHookLength">Optional explicit length of hook. Use only in rare cases where auto-length check overflows a jmp/call opcode.</param>
+            <param name="options">Options which control the hook generation procedure.</param>
+        </member>
+        <member name="M:Reloaded.Hooks.Hook`1.Activate">
+            <inheritdoc />
+        </member>
+        <member name="M:Reloaded.Hooks.Hook`1.Reloaded#Hooks#Definitions#IHook#Activate">
+            <inheritdoc />
+        </member>
+        <member name="M:Reloaded.Hooks.Hook`1.Disable">
+            <inheritdoc />
+        </member>
+        <member name="M:Reloaded.Hooks.Hook`1.Enable">
+            <inheritdoc />
+        </member>
+        <member name="T:Reloaded.Hooks.Internal.AddressRange">
+            <summary>
+            Defines a physical address range with a minimum and maximum address.
+            </summary>
+        </member>
+        <member name="M:Reloaded.Hooks.Internal.AddressRange.Contains(System.UIntPtr)">
+            <summary>
+            Returns true if a specified point is contained in this address range.
+            </summary>
+        </member>
+        <member name="M:Reloaded.Hooks.Internal.AddressRange.PointInRange(Reloaded.Hooks.Internal.AddressRange@,System.UIntPtr)">
+            <summary>
+            Returns true if a number "point", is between min and max of address range.
+            </summary>
+        </member>
+        <member name="T:Reloaded.Hooks.Internal.FunctionPatch">
+            <summary>
+            Contains a "patched" version of the start of a given native function
+            as well as a list of patches to apply when hooking function that was "patched".
+            </summary>
+        </member>
+        <member name="T:Reloaded.Hooks.Internal.FunctionPatcher">
+            <summary>
+            Disassembles provided bytes and tries to detect other function hooks.
+            Generates <see cref="T:Reloaded.Hooks.Internal.Patch"/>es which fix other software's hooks to co-operate with ours.
+            </summary>
+        </member>
+        <member name="M:Reloaded.Hooks.Internal.FunctionPatcher.Patch(System.Collections.Generic.List{System.Byte},System.UIntPtr)">
+            <summary>
+            Rewrites existing functions (supplied as list of bytes) converting relative to absolute jumps as well
+            as the return addresses from given jumps.
+            See Source Code for more details.
+            </summary>
+            <param name="oldFunction">The function to rewrite.</param>
+            <param name="baseAddress">The original address of the function.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Reloaded.Hooks.Internal.FunctionPatcher.PatchJumpTargets_Internal(Reloaded.Hooks.Internal.AddressRange,Reloaded.Hooks.Internal.AddressRange,System.UIntPtr)">
+            <summary>
+            Patches all jumps pointing to originalJmpTarget to point to newJmpTarget.
+            </summary>
+            <param name="searchRange">Range of addresses where to patch jumps.</param>
+            <param name="originalJmpTarget">Address range of JMP targets to patch with newJmpTarget.</param>
+            <param name="newJmpTarget">The new address instructions should jmp to.</param>
+        </member>
+        <member name="M:Reloaded.Hooks.Internal.FunctionPatcher.PatchRelativeJump(Iced.Intel.Instruction,Reloaded.Hooks.Internal.AddressRange@,System.UIntPtr,System.Collections.Generic.List{Reloaded.Hooks.Internal.Patch})">
+            <summary>
+            Creates patch for a relative jump, if necessary.
+            </summary>
+        </member>
+        <member name="M:Reloaded.Hooks.Internal.FunctionPatcher.PatchRIPRelativeJump(Iced.Intel.Instruction,Reloaded.Hooks.Internal.AddressRange@,System.UIntPtr,System.Collections.Generic.List{Reloaded.Hooks.Internal.Patch})">
+            <summary>
+            Creates patch for a RIP relative jump, if necessary.
+            </summary>
+        </member>
+        <member name="M:Reloaded.Hooks.Internal.FunctionPatcher.PatchPushReturn(Iced.Intel.Instruction,Reloaded.Hooks.Internal.AddressRange@,System.UIntPtr,System.Collections.Generic.List{Reloaded.Hooks.Internal.Patch})">
+            <summary>
+            Creates patch for a push + return combo, if necessary.
+            </summary>
+        </member>
+        <member name="M:Reloaded.Hooks.Internal.FunctionPatcher.GetSearchRange(System.UIntPtr@,System.UIntPtr@)">
+            <summary>
+            [Part of PatchJumpTargets_Internal]
+            Obtains the address range to perform search for jumps back by modifying a given searchPointer and giving a searchRange.
+            </summary>
+            <param name="searchPointer">The initial pointer from which to deduce the search range.</param>
+            <param name="searchLength"> The length of the search.</param>
+        </member>
+        <member name="M:Reloaded.Hooks.Internal.FunctionPatcher.TryReadFromMemory(System.UIntPtr,System.Int32)">
+            <summary>
+            Attempts to read out a number of bytes from unmanaged memory.
+            </summary>
+            <param name="address">Address to read from.</param>
+            <param name="size">The size of memory.</param>
+        </member>
+        <member name="M:Reloaded.Hooks.Internal.FunctionPatcher.GetCachedModules">
+            <summary>
+            Grabs a cached copy of the module list.
+            </summary>
+        </member>
+        <member name="M:Reloaded.Hooks.Internal.FunctionPatcher.GetJumpTarget(Iced.Intel.Instruction)">
+            <summary>
+            Obtains the offset of a relative immediate operand, else throws exception,
+            </summary>
+        </member>
+        <member name="M:Reloaded.Hooks.Internal.FunctionPatcher.GetOperandOffset(Iced.Intel.Instruction)">
+            <summary>
+            Obtains the offset of a relative immediate operand, else throws exception,
+            </summary>
+        </member>
+        <member name="F:Reloaded.Hooks.Internal.FunctionPatcher.JumpDetails.JumpOpcodeEnd">
+            <summary>
+            Pointer to end of the opcode combination that causes the jump.
+            </summary>
+        </member>
+        <member name="F:Reloaded.Hooks.Internal.FunctionPatcher.JumpDetails.JumpOpcodeTarget">
+            <summary>
+            Where the opcode jumps to.
+            </summary>
+        </member>
+        <member name="M:Reloaded.Hooks.Internal.FunctionPatcher.PC(Iced.Intel.Instruction)">
+            <summary>
+            Gets the address of the next instruction following an instruction.
+            </summary>
+            <param name="instruction">The instruction.</param>
+        </member>
+        <member name="T:Reloaded.Hooks.Internal.IcedPatcher">
+            <summary>
+            Implement a second pass to internal function patching via iced.
+            Second pass catches regular application code. My function patcher is only for patching existing hooks and their return addresses.
+            Iced handles the rest, such as patching short jumps to elsewhere in same function, call instructions etc.
+            </summary>
+        </member>
+        <member name="M:Reloaded.Hooks.Internal.IcedPatcher.#ctor(System.Boolean,System.Byte[],System.UIntPtr)">
+            <summary>
+            Creates a patcher, which patches an existing function prologue using Iced.
+            </summary>
+            <param name="is64Bit">Set to true if the prologue is 64bit code, else false.</param>
+            <param name="bytes">The bytes of the prologue of the hooked function.</param>
+            <param name="originalFunctionAddress">Address of the original function being patched by iced.</param>
+        </member>
+        <member name="M:Reloaded.Hooks.Internal.IcedPatcher.EncodeForNewAddress(System.UIntPtr)">
+            <summary>
+            Encodes the original bytes for a new address fixing e.g. branches, calls, jumps for execution at a given address.
+            </summary>
+            <param name="newAddress">The new address to encode the original instructions for.</param>
+        </member>
+        <member name="M:Reloaded.Hooks.Internal.IcedPatcher.ToMemoryBuffer(System.Nullable{System.UIntPtr})">
+            <summary>
+            Patches the prologue of a function with iced, writes to <see cref="T:Reloaded.Memory.Buffers.MemoryBuffer"/>
+            and returns the new address of the prologue.
+            </summary>
+            <param name="jumpTarget">Appends a relative jump to this address at the end of the patched code. Set null to not add a jump.</param>
+            <returns>
+                Address of the patched function added to a <see cref="T:Reloaded.Memory.Buffers.MemoryBuffer"/>.
+                If this function has already been executed, returns the address of previously patched function.
+            </returns>
+        </member>
+        <member name="M:Reloaded.Hooks.Internal.IcedPatcher.DecodePrologue">
+            <summary>
+            Returns a set of instructions represented by the prologue this type was instantiated with.
+            </summary>
+        </member>
+        <member name="T:Reloaded.Hooks.Internal.IcedPatcher.CodeWriterImpl">
+            <summary>
+            Simple and inefficient code writer that stores data in a List(byte) with a ToArray method to get data.
+            </summary>
+        </member>
+        <member name="T:Reloaded.Hooks.Internal.Native.MEMORY_BASIC_INFORMATION">
+            <summary>
+            <para>
+            Contains information about a range of pages in the virtual address space of a process. The VirtualQuery and VirtualQueryEx
+            functions use this structure.
+            </para>
+            </summary>
+            <remarks>
+            <para>
+            To enable a debugger to debug a target that is running on a different architecture (32-bit versus 64-bit), use one of the
+            explicit forms of this structure.
+            </para>
+            </remarks>
+        </member>
+        <member name="F:Reloaded.Hooks.Internal.Native.MEMORY_BASIC_INFORMATION.BaseAddress">
+            <summary>
+            <para>A pointer to the base address of the region of pages.</para>
+            </summary>
+        </member>
+        <member name="F:Reloaded.Hooks.Internal.Native.MEMORY_BASIC_INFORMATION.AllocationBase">
+            <summary>
+            <para>
+            A pointer to the base address of a range of pages allocated by the VirtualAlloc function. The page pointed to by the
+            <c>BaseAddress</c> member is contained within this allocation range.
+            </para>
+            </summary>
+        </member>
+        <member name="F:Reloaded.Hooks.Internal.Native.MEMORY_BASIC_INFORMATION.AllocationProtect">
+            <summary>
+            <para>
+            The memory protection option when the region was initially allocated. This member can be one of the memory protection
+            constants or 0 if the caller does not have access.
+            </para>
+            </summary>
+        </member>
+        <member name="F:Reloaded.Hooks.Internal.Native.MEMORY_BASIC_INFORMATION.RegionSize">
+            <summary>
+            <para>The size of the region beginning at the base address in which all pages have identical attributes, in bytes.</para>
+            </summary>
+        </member>
+        <member name="F:Reloaded.Hooks.Internal.Native.MEMORY_BASIC_INFORMATION.State">
+            <summary>
+            <para>The state of the pages in the region. This member can be one of the following values.</para>
+            <list type="table">
+            <listheader>
+            <term>State</term>
+            <term>Meaning</term>
+            </listheader>
+            <item>
+            <term>MEM_COMMIT 0x1000</term>
+            <term>
+            Indicates committed pages for which physical storage has been allocated, either in memory or in the paging file on disk.
+            </term>
+            </item>
+            <item>
+            <term>MEM_FREE 0x10000</term>
+            <term>
+            Indicates free pages not accessible to the calling process and available to be allocated. For free pages, the information in
+            the AllocationBase, AllocationProtect, Protect, and Type members is undefined.
+            </term>
+            </item>
+            <item>
+            <term>MEM_RESERVE 0x2000</term>
+            <term>
+            Indicates reserved pages where a range of the process's virtual address space is reserved without any physical storage being
+            allocated. For reserved pages, the information in the Protect member is undefined.
+            </term>
+            </item>
+            </list>
+            </summary>
+        </member>
+        <member name="F:Reloaded.Hooks.Internal.Native.MEMORY_BASIC_INFORMATION.Protect">
+            <summary>
+            <para>
+            The access protection of the pages in the region. This member is one of the values listed for the <c>AllocationProtect</c> member.
+            </para>
+            </summary>
+        </member>
+        <member name="F:Reloaded.Hooks.Internal.Native.MEMORY_BASIC_INFORMATION.Type">
+            <summary>
+            <para>The type of pages in the region. The following types are defined.</para>
+            <list type="table">
+            <listheader>
+            <term>Type</term>
+            <term>Meaning</term>
+            </listheader>
+            <item>
+            <term>MEM_IMAGE 0x1000000</term>
+            <term>Indicates that the memory pages within the region are mapped into the view of an image section.</term>
+            </item>
+            <item>
+            <term>MEM_MAPPED 0x40000</term>
+            <term>Indicates that the memory pages within the region are mapped into the view of a section.</term>
+            </item>
+            <item>
+            <term>MEM_PRIVATE 0x20000</term>
+            <term>Indicates that the memory pages within the region are private (that is, not shared by other processes).</term>
+            </item>
+            </list>
+            </summary>
+        </member>
+        <member name="T:Reloaded.Hooks.Internal.Native.MEM_PROTECTION">
+            <summary>
+            The following are the memory-protection options; you must specify one of the following values when allocating or protecting a page in memory.
+            Protection attributes cannot be assigned to a portion of a page; they can only be assigned to a whole page.
+            </summary>
+        </member>
+        <member name="F:Reloaded.Hooks.Internal.Native.MEM_PROTECTION.PAGE_NOACCESS">
+            <summary>
+            Disables all access to the committed region of pages. An attempt to read from, write to, or execute the committed region results in an access violation.
+            <para>This flag is not supported by the CreateFileMapping function.</para>
+            </summary>
+        </member>
+        <member name="F:Reloaded.Hooks.Internal.Native.MEM_PROTECTION.PAGE_READONLY">
+            <summary>
+            Enables read-only access to the committed region of pages. An attempt to write to the committed region results in an access violation. If Data
+            Execution Prevention is enabled, an attempt to execute code in the committed region results in an access violation.
+            </summary>
+        </member>
+        <member name="F:Reloaded.Hooks.Internal.Native.MEM_PROTECTION.PAGE_READWRITE">
+            <summary>
+            Enables read-only or read/write access to the committed region of pages. If Data Execution Prevention is enabled, attempting to execute code in
+            the committed region results in an access violation.
+            </summary>
+        </member>
+        <member name="F:Reloaded.Hooks.Internal.Native.MEM_PROTECTION.PAGE_WRITECOPY">
+            <summary>
+            Enables read-only or copy-on-write access to a mapped view of a file mapping object. An attempt to write to a committed copy-on-write page
+            results in a private copy of the page being made for the process. The private page is marked as PAGE_READWRITE, and the change is written to the
+            new page. If Data Execution Prevention is enabled, attempting to execute code in the committed region results in an access violation.
+            <para>This flag is not supported by the VirtualAlloc or VirtualAllocEx functions.</para>
+            </summary>
+        </member>
+        <member name="F:Reloaded.Hooks.Internal.Native.MEM_PROTECTION.PAGE_EXECUTE">
+            <summary>
+            Enables execute access to the committed region of pages. An attempt to write to the committed region results in an access violation.
+            <para>This flag is not supported by the CreateFileMapping function.</para>
+            </summary>
+        </member>
+        <member name="F:Reloaded.Hooks.Internal.Native.MEM_PROTECTION.PAGE_EXECUTE_READ">
+            <summary>
+            Enables execute or read-only access to the committed region of pages. An attempt to write to the committed region results in an access violation.
+            <para>
+            Windows Server 2003 and Windows XP: This attribute is not supported by the CreateFileMapping function until Windows XP with SP2 and Windows
+            Server 2003 with SP1.
+            </para>
+            </summary>
+        </member>
+        <member name="F:Reloaded.Hooks.Internal.Native.MEM_PROTECTION.PAGE_EXECUTE_READWRITE">
+            <summary>
+            Enables execute, read-only, or read/write access to the committed region of pages.
+            <para>
+            Windows Server 2003 and Windows XP: This attribute is not supported by the CreateFileMapping function until Windows XP with SP2 and Windows
+            Server 2003 with SP1.
+            </para>
+            </summary>
+        </member>
+        <member name="F:Reloaded.Hooks.Internal.Native.MEM_PROTECTION.PAGE_EXECUTE_WRITECOPY">
+            <summary>
+            Enables execute, read-only, or copy-on-write access to a mapped view of a file mapping object. An attempt to write to a committed copy-on-write
+            page results in a private copy of the page being made for the process. The private page is marked as PAGE_EXECUTE_READWRITE, and the change is
+            written to the new page.
+            <para>This flag is not supported by the VirtualAlloc or VirtualAllocEx functions.</para>
+            <para>
+            Windows Vista, Windows Server 2003 and Windows XP: This attribute is not supported by the CreateFileMapping function until Windows Vista with SP1
+            and Windows Server 2008.
+            </para>
+            </summary>
+        </member>
+        <member name="F:Reloaded.Hooks.Internal.Native.MEM_PROTECTION.PAGE_GUARD">
+            <summary>
+            Pages in the region become guard pages. Any attempt to access a guard page causes the system to raise a STATUS_GUARD_PAGE_VIOLATION exception and
+            turn off the guard page status. Guard pages thus act as a one-time access alarm. For more information, see Creating Guard Pages.
+            <para>When an access attempt leads the system to turn off guard page status, the underlying page protection takes over.</para>
+            <para>If a guard page exception occurs during a system service, the service typically returns a failure status indicator.</para>
+            <para>This value cannot be used with PAGE_NOACCESS.</para>
+            <para>This flag is not supported by the CreateFileMapping function.</para>
+            </summary>
+        </member>
+        <member name="F:Reloaded.Hooks.Internal.Native.MEM_PROTECTION.PAGE_NOCACHE">
+            <summary>
+            Sets all pages to be non-cachable. Applications should not use this attribute except when explicitly required for a device. Using the interlocked
+            functions with memory that is mapped with SEC_NOCACHE can result in an EXCEPTION_ILLEGAL_INSTRUCTION exception.
+            <para>The PAGE_NOCACHE flag cannot be used with the PAGE_GUARD, PAGE_NOACCESS, or PAGE_WRITECOMBINE flags.</para>
+            <para>
+            The PAGE_NOCACHE flag can be used only when allocating private memory with the VirtualAlloc, VirtualAllocEx, or VirtualAllocExNuma functions. To
+            enable non-cached memory access for shared memory, specify the SEC_NOCACHE flag when calling the CreateFileMapping function.
+            </para>
+            </summary>
+        </member>
+        <member name="F:Reloaded.Hooks.Internal.Native.MEM_PROTECTION.PAGE_WRITECOMBINE">
+            <summary>
+            Sets all pages to be write-combined.
+            <para>
+            Applications should not use this attribute except when explicitly required for a device. Using the interlocked functions with memory that is
+            mapped as write-combined can result in an EXCEPTION_ILLEGAL_INSTRUCTION exception.
+            </para>
+            <para>The PAGE_WRITECOMBINE flag cannot be specified with the PAGE_NOACCESS, PAGE_GUARD, and PAGE_NOCACHE flags.</para>
+            <para>
+            The PAGE_WRITECOMBINE flag can be used only when allocating private memory with the VirtualAlloc, VirtualAllocEx, or VirtualAllocExNuma
+            functions. To enable write-combined memory access for shared memory, specify the SEC_WRITECOMBINE flag when calling the CreateFileMapping function.
+            </para>
+            <para>Windows Server 2003 and Windows XP: This flag is not supported until Windows Server 2003 with SP1.</para>
+            </summary>
+        </member>
+        <member name="F:Reloaded.Hooks.Internal.Native.MEM_PROTECTION.PAGE_ENCLAVE_UNVALIDATED">
+            <summary>The page contents that you supply are excluded from measurement with the EEXTEND instruction of the Intel SGX programming model.</summary>
+        </member>
+        <member name="F:Reloaded.Hooks.Internal.Native.MEM_PROTECTION.PAGE_TARGETS_INVALID">
+            <summary>
+            Sets all locations in the pages as invalid targets for CFG. Used along with any execute page protection like PAGE_EXECUTE, PAGE_EXECUTE_READ,
+            PAGE_EXECUTE_READWRITE and PAGE_EXECUTE_WRITECOPY. Any indirect call to locations in those pages will fail CFG checks and the process will be
+            terminated. The default behavior for executable pages allocated is to be marked valid call targets for CFG.
+            <para>This flag is not supported by the VirtualProtect or CreateFileMapping functions.</para>
+            </summary>
+        </member>
+        <member name="F:Reloaded.Hooks.Internal.Native.MEM_PROTECTION.PAGE_TARGETS_NO_UPDATE">
+            <summary>
+            Pages in the region will not have their CFG information updated while the protection changes for VirtualProtect. For example, if the pages in the
+            region was allocated using PAGE_TARGETS_INVALID, then the invalid information will be maintained while the page protection changes. This flag is
+            only valid when the protection changes to an executable type like PAGE_EXECUTE, PAGE_EXECUTE_READ, PAGE_EXECUTE_READWRITE and
+            PAGE_EXECUTE_WRITECOPY. The default behavior for VirtualProtect protection change to executable is to mark all locations as valid call targets
+            for CFG.
+            <para>The following are modifiers that can be used in addition to the options provided in the previous table, except as noted.</para>
+            </summary>
+        </member>
+        <member name="F:Reloaded.Hooks.Internal.Native.MEM_PROTECTION.PAGE_ENCLAVE_THREAD_CONTROL">
+            <summary>The page contains a thread control structure (TCS).</summary>
+        </member>
+        <member name="F:Reloaded.Hooks.Internal.Native.MEM_PROTECTION.PAGE_REVERT_TO_FILE_MAP">
+            <summary></summary>
+        </member>
+        <member name="T:Reloaded.Hooks.Internal.Patch">
+            <summary>
+            A simple structure that defines an address and the bytes that should be written to the address.
+            </summary>
+        </member>
+        <member name="M:Reloaded.Hooks.Internal.Patch.Apply">
+            <summary>
+            Applies the patch. (Writes bytes to address).
+            </summary>
+        </member>
+        <member name="M:Reloaded.Hooks.Internal.Patch.ApplyUnsafe">
+            <summary>
+            Applies the patch without changing permissions.
+            </summary>
+        </member>
+        <member name="T:Reloaded.Hooks.Internal.Testing.FunctionPatcherTesting">
+            <summary>
+            [TESTING USE ONLY]
+            </summary>
+        </member>
+        <member name="M:Reloaded.Hooks.Internal.Testing.FunctionPatcherTesting.PatchJumpTargets(Reloaded.Hooks.Internal.FunctionPatcher,Reloaded.Hooks.Internal.AddressRange,Reloaded.Hooks.Internal.AddressRange,System.UIntPtr)">
+            <summary>
+            [TESTING USE ONLY]
+            </summary>
+        </member>
+        <member name="M:Reloaded.Hooks.Internal.Testing.FunctionPatcherTesting.GetSearchRange(Reloaded.Hooks.Internal.FunctionPatcher,System.UIntPtr@,System.UIntPtr@)">
+            <summary>
+            [TESTING USE ONLY]
+            </summary>
+        </member>
+        <member name="M:Reloaded.Hooks.ReloadedHooks.CreateHook``1(System.Type,System.String,System.Int64,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:Reloaded.Hooks.ReloadedHooks.CreateHook``1(System.Type,System.String,System.Int64)">
+            <inheritdoc />
+        </member>
+        <member name="M:Reloaded.Hooks.ReloadedHooks.CreateHook``1(System.Type,System.String,System.Int64,System.Int32,Reloaded.Hooks.Definitions.FunctionHookOptions)">
+            <inheritdoc />
+        </member>
+        <member name="M:Reloaded.Hooks.ReloadedHooksUtilities.GetFunctionPointer(System.Type,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="T:Reloaded.Hooks.Tools.FunctionPtr`1">
+            <summary>
+            Represents a native function pointer.
+            </summary>
+        </member>
+        <member name="P:Reloaded.Hooks.Tools.FunctionPtr`1.FunctionPointer">
+            <inheritdoc />
+        </member>
+        <member name="F:Reloaded.Hooks.Tools.FunctionPtr`1._methodCache">
+            <summary> Cache of already created function wrappers for functions at address. </summary>
+        </member>
+        <member name="F:Reloaded.Hooks.Tools.FunctionPtr`1._delegate">
+            <summary> Caches the last used delegate. </summary>
+        </member>
+        <member name="F:Reloaded.Hooks.Tools.FunctionPtr`1._lastFunctionPointer">
+            <summary> Contains the address of the last called function. </summary>
+        </member>
+        <member name="P:Reloaded.Hooks.Tools.FunctionPtr`1.Item(System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.FunctionPtr`1.#ctor(System.UInt64)">
+            <summary>
+            Abstracts a pointer to a native function.
+            </summary>
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.FunctionPtr`1.GetFunctionAddress(System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.FunctionPtr`1.GetDelegate(System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="T:Reloaded.Hooks.Tools.HookedObjectVirtualFunctionTable">
+            <summary>
+            Hooks an object's virtual function table from an object address in memory.
+            Only this object is hooked, other objects are unaffected.
+            
+            An assumption is made that the virtual function table pointer is the first parameter.
+            This hooks the virtual function table pointer by copying the object's virtual function table
+            and changing the objects virtual function table pointer to the address of the copy.
+            
+            After calling this, individual functions must be hooked by calling CreateFunctionHook.
+            </summary>
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.HookedObjectVirtualFunctionTable.VTableEntryHook`1.#ctor(Reloaded.Hooks.Tools.HookedObjectVirtualFunctionTable,System.UIntPtr,System.Int32,`0)">
+            <summary>
+            Hooks an individual vtable function pointer from a already hooked vtable pointer.
+            </summary>
+            <param name="vTableHook">The already hooked virtual function table</param>
+            <param name="originalVirtualFunctionTableAddress">The address of the original virtual function pointer
+            This will be read to store the original function pointer</param>
+            <param name="index">The index of the virtual function pointer in the virtual function table</param>
+            <param name="function">The hook function</param>
+        </member>
+        <member name="P:Reloaded.Hooks.Tools.HookedObjectVirtualFunctionTable.VTableEntryHook`1.OriginalFunction">
+            <inheritdoc />
+        </member>
+        <member name="P:Reloaded.Hooks.Tools.HookedObjectVirtualFunctionTable.VTableEntryHook`1.ReverseWrapper">
+            <inheritdoc />
+        </member>
+        <member name="P:Reloaded.Hooks.Tools.HookedObjectVirtualFunctionTable.VTableEntryHook`1.IsHookEnabled">
+            <inheritdoc />
+        </member>
+        <member name="P:Reloaded.Hooks.Tools.HookedObjectVirtualFunctionTable.VTableEntryHook`1.IsHookActivated">
+            <inheritdoc />
+        </member>
+        <member name="P:Reloaded.Hooks.Tools.HookedObjectVirtualFunctionTable.VTableEntryHook`1.OriginalFunctionAddress">
+            <inheritdoc />
+        </member>
+        <member name="P:Reloaded.Hooks.Tools.HookedObjectVirtualFunctionTable.VTableEntryHook`1.OriginalFunctionWrapperAddress">
+            <inheritdoc />
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.HookedObjectVirtualFunctionTable.VTableEntryHook`1.CreateReverseWrapper(`0)">
+            <inheritdoc />
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.HookedObjectVirtualFunctionTable.VTableEntryHook`1.CreateWrapper(System.UIntPtr,System.UIntPtr@)">
+            <inheritdoc />
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.HookedObjectVirtualFunctionTable.VTableEntryHook`1.Reloaded#Hooks#Definitions#IHook#Activate">
+            <inheritdoc />
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.HookedObjectVirtualFunctionTable.VTableEntryHook`1.Activate">
+            <inheritdoc />
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.HookedObjectVirtualFunctionTable.VTableEntryHook`1.Disable">
+            <inheritdoc />
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.HookedObjectVirtualFunctionTable.VTableEntryHook`1.Enable">
+            <inheritdoc />
+        </member>
+        <member name="P:Reloaded.Hooks.Tools.HookedObjectVirtualFunctionTable.TableEntries">
+            <inheritdoc />
+        </member>
+        <member name="P:Reloaded.Hooks.Tools.HookedObjectVirtualFunctionTable.ObjectAddress">
+            <summary>
+            The address of the hooked object
+            </summary>
+        </member>
+        <member name="P:Reloaded.Hooks.Tools.HookedObjectVirtualFunctionTable.Item(System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.HookedObjectVirtualFunctionTable.FromObject(System.UIntPtr,System.Int32)">
+            <summary>
+            Hooks an object's virtual function table from an object address in memory.
+            Only this object is hooked, other objects are unaffected.
+            An assumption is made that the virtual function table pointer is the first parameter.
+            This hooks the virtual function table pointer by copying the object's virtual function table
+            and changing the objects virtual function table pointer to the address of the copy.
+            After calling this, individual functions must be hooked by calling CreateFunctionHook.
+            </summary>
+            <param name="objectAddress">
+                The memory address at which the object is stored.
+                The function will assume that the first entry is a pointer to the virtual function
+                table, as standard with C++ code.
+            </param>
+            <param name="numberOfMethods">
+                The number of methods contained in the virtual function table.
+                For enumerables, you may obtain this value as such: Enum.GetNames(typeof(MyEnum)).Length; where
+                MyEnum is the name of your enumerable.
+                Make sure this number is at least as big as your target vtable, 
+                as we need to copy -all- of the vtable function pointers.
+            </param>
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.HookedObjectVirtualFunctionTable.CreateFunctionHook``1(System.Int32,``0)">
+            <inheritdoc />
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.HookedObjectVirtualFunctionTable.CreateWrapperFunction``1(System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.HookedObjectVirtualFunctionTable.AddHook(Reloaded.Hooks.Definitions.IHook)">
+            <summary>
+            Adds the individual vtable hook to a list so it can not be garbage collected, while the main object is still active
+            </summary>
+            <param name="hook">The hook to add</param>
+        </member>
+        <member name="P:Reloaded.Hooks.Tools.Utilities.Assembler">
+            <summary>
+            Assembler is costly to instantiate.
+            We statically instantiate it here to avoid multiple instantiations.
+            </summary>
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.Utilities.WritePointer(System.UIntPtr)">
+            <summary>
+            Writes a pointer to a given target address in unmanaged, non-reclaimable memory.
+            </summary>
+            <param name="target">The target address/value the pointer is pointing to.</param>
+            <returns>Address of the pointer.</returns>
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.Utilities.AssembleAbsoluteJump(System.UIntPtr,System.Boolean)">
+            <summary>
+            Assembles an absolute jump to a user specified address.
+            </summary>
+            <param name="target">The target memory location to jump to.</param>
+            <param name="is64bit">True to generate x64 code, else false (x86 code).</param>
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.Utilities.AssemblePushReturn(System.UIntPtr,System.Boolean)">
+            <summary>
+            Assembles a push + return combination to a given target address.
+            </summary>
+            <param name="target">The target memory location to jump to.</param>
+            <param name="is64bit">True to generate x64 code, else false (x86 code).</param>
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.Utilities.AssembleRelativeJump(System.IntPtr,System.Boolean)">
+            <summary>
+            Assembles a relative (to EIP/RIP) jump by a user specified offset.
+            </summary>
+            <param name="relativeJumpOffset">Offset relative to EIP/RIP to jump to.</param>
+            <param name="is64bit">True to generate x64 code, else false (x86 code).</param>
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.Utilities.AssembleRelativeJump(System.UIntPtr,System.UIntPtr,System.Boolean)">
+            <summary>
+            Assembles a relative (to EIP/RIP) jump by a user specified offset.
+            </summary>
+            <param name="currentAddress">Address of the current instruction.</param>
+            <param name="targetAddress">The address to jump to.</param>
+            <param name="is64bit">True to generate x64 code, else false (x86 code).</param>
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.Utilities.AssembleRelativeJump(System.UIntPtr,System.UIntPtr,System.Boolean,System.Boolean@)">
+            <summary>
+            Assembles a relative (to EIP/RIP) jump by a user specified offset.
+            </summary>
+            <param name="currentAddress">Address of the current instruction.</param>
+            <param name="targetAddress">The address to jump to.</param>
+            <param name="is64bit">True to generate x64 code, else false (x86 code).</param>
+            <param name="isProxied">
+                True if this relative jump is handled through a proxy, i.e. this jump jumps to another jump which jumps to the real target.
+            </param>
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.Utilities.GetAbsoluteJumpMnemonics(System.UIntPtr,System.Boolean)">
+            <summary>
+            Gets the sequence of assembly instructions required to assemble an absolute jump to a user specified address.
+            </summary>
+            <param name="target">The target memory location to jump to.</param>
+            <param name="is64bit">True to generate x64 code, else false (x86 code).</param>
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.Utilities.GetAbsoluteCallMnemonics(System.UIntPtr,System.Boolean)">
+            <summary>
+            Gets the sequence of assembly instructions required to assemble an absolute call to a user specified address.
+            </summary>
+            <param name="target">The target memory location to jump to.</param>
+            <param name="is64bit">True to generate x64 code, else false (x86 code).</param>
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.Utilities.GetAbsoluteJumpMnemonics``1(``0,Reloaded.Hooks.Definitions.IReverseWrapper{``0}@)">
+            <summary>
+            Gets the sequence of assembly instructions required to assemble an absolute jump to a C# function address.
+            </summary>
+            <param name="function">The C# function to create a jump to.</param>
+            <param name="reverseWrapper">
+                The native reverse wrapper used to call your function.
+                Please keep a reference to this class as long as you are using the generated code.
+                i.e. make it a class/struct member on heap.
+            </param>
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.Utilities.GetAbsoluteCallMnemonics``1(``0,Reloaded.Hooks.Definitions.IReverseWrapper{``0}@)">
+            <summary>
+            Gets the sequence of assembly instructions required to assemble an absolute call to a C# function address.
+            </summary>
+            <param name="function">The C# function to create a jump to.</param>
+            <param name="reverseWrapper">
+                The native reverse wrapper used to call your function.
+                Please keep a reference to this class as long as you are using the generated code.
+                i.e. make it a class/struct member on heap.
+            </param>
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.Utilities.GetPushReturnMnemonics(System.UIntPtr,System.Boolean)">
+            <summary>
+            Gets the sequence of assembly instructions required to assemble an absolute jump to a user specified address.
+            </summary>
+            <param name="target">The target memory location to jump to.</param>
+            <param name="is64bit">True to generate x64 code, else false (x86 code).</param>
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.Utilities.GetRelativeJumpMnemonics(System.IntPtr,System.Boolean)">
+            <summary>
+            Gets the sequence of assembly instructions required to assemble a relative jump to the current instruction pointer.
+            </summary>
+            <param name="relativeJumpOffset">Offset relative to EIP/RIP to jump to.</param>
+            <param name="is64bit">True to generate x64 code, else false (x86 code).</param>
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.Utilities.InsertJump(System.Byte[],System.Boolean,System.UIntPtr,System.UIntPtr,System.IntPtr)">
+            <summary>
+            Appends an absolute jump to the supplied opcodes and assembles the result, returning a pointer.
+            </summary>
+            <param name="jumpTarget">The address to jump to.</param>
+            <param name="opcodes">Bytes representing existing assembly instructions.</param>
+            <param name="is64bit">True for x64 else x86</param>
+            <param name="targetAddress">[Optional] Target address within of which the wrapper should be placed in <paramref name="maxDisplacement"/> range.</param>
+            <param name="maxDisplacement">Maximum distance from the <paramref name="targetAddress"/></param>
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.Utilities.CreateJump(System.UIntPtr,System.Boolean,System.Int32)">
+            <summary>
+            Creates instructions to jump to a specified address and then writes them to the buffer.
+            </summary>
+            <param name="targetPtr">The address to jump to.</param>
+            <param name="is64Bit">Whether the jump is 64-bit or not.</param>
+            <param name="minBytesUsed">Minimum number of bytes to use in the buffer.</param>
+            <returns>Pointer to the code used to jump to said specified address.</returns>
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.Utilities.GetHookLength(System.UIntPtr,System.Int32,System.Boolean)">
+            <summary>
+            Retrieves the length of the hook for trampoline, mid-function hooks etc.
+            </summary>
+            <param name="hookAddress">The address that is to be hooked.</param>
+            <param name="hookLength">The minimum length of the hook, the length of our assembled bytes for the hook.</param>
+            <param name="is64Bit">True to disasm as 64-bit, else uses 32.</param>
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.Utilities.GetNumberofParameters(System.Type)">
+            <summary>
+            Retrieves the number of parameters for a specific delegate Type.
+            </summary>
+            <param name="delegateType">A Type extracted from a Delegate.</param>
+            <returns>Number of parameters for the supplied delegate type.</returns>
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.Utilities.GetNumberofParametersWithoutFloats(System.Type)">
+            <summary>
+            Retrieves the number of parameters for a specific delegate Type,
+            ignoring any floating point parameters.
+            </summary>
+            <param name="delegateType">A Type extracted from a Delegate.</param>
+            <returns>Number of parameters for the supplied delegate type, without floats.</returns>
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.Utilities.GetNumberofParameters``1">
+            <summary>
+            Retrieves the number of parameters for a type that inherits from <see cref="T:Reloaded.Hooks.Definitions.Structs.IFuncPtr"/>.
+            Otherwise defaults to checking by type, assuming the type is a <see cref="T:System.Delegate"/>
+            </summary>
+            <typeparam name="TFunction">Type that inherits from <see cref="T:Reloaded.Hooks.Definitions.Structs.IFuncPtr"/> or contains a field that inherits from <see cref="T:Reloaded.Hooks.Definitions.Structs.IFuncPtr"/>.</typeparam>
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.Utilities.GetNumberofParametersWithoutFloats``1">
+            <summary>
+            Retrieves the number of parameters for a type that inherits from <see cref="T:Reloaded.Hooks.Definitions.Structs.IFuncPtr"/>.
+            Otherwise defaults to checking by type, assuming the type is a <see cref="T:System.Delegate"/>
+            Ignores float and double parameters.
+            </summary>
+            <typeparam name="TFunction">Type that inherits from <see cref="T:Reloaded.Hooks.Definitions.Structs.IFuncPtr"/> or contains a field that inherits from <see cref="T:Reloaded.Hooks.Definitions.Structs.IFuncPtr"/>.</typeparam>
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.Utilities.TryGetIFuncPtrFromType``1(Reloaded.Hooks.Definitions.Structs.IFuncPtr@)">
+            <summary>
+            Tries to instantiate <see cref="T:Reloaded.Hooks.Definitions.Structs.IFuncPtr"/> from a <typeparamref name="TType"/> or and of the type's fields.
+            </summary>
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.Utilities.GetNonFloatParameters(System.Reflection.MethodInfo)">
+            <summary>
+            Retrieves the number of parameters for a specific delegate type minus the floating point parameters.
+            </summary>
+            <param name="methodInformation">Defines the individual information that describes a method to be called.</param>
+            <returns>The number of non-float parameters.</returns>
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.Utilities.IsBadReadPtr(System.IntPtr)">
+            <summary>
+            Checks whether a given address in memory can be read from.
+            </summary>
+            <param name="address">The target address.</param>
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.Utilities.FillArrayUntilSize``1(System.Collections.Generic.List{``0},``0,System.Int32)">
+            <summary>
+            Fills a given array with <paramref name="value"/> until the array of bytes is as large as <paramref name="length"/>.
+            </summary>
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.Utilities.TryAssembleRelativeJumpArray(System.UIntPtr,System.UIntPtr,System.Boolean,System.Boolean@)">
+            <summary>
+            Assembles a relative jump if the target is within range,
+            else assembles an absolute jump.
+            </summary>
+            <param name="source">The source address to jump from.</param>
+            <param name="target">The target address to jump to.</param>
+            <param name="is64Bit">True if 64 bit, else false.</param>
+            <param name="isRelative">True if the jump is relative, else false.</param>
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.Utilities.TryAssembleRelativeJump(System.UIntPtr,System.UIntPtr,System.Boolean,System.Boolean@)">
+            <summary>
+            Assembles a relative jump if the target is within range,
+            else assembles an absolute jump.
+            </summary>
+            <param name="source">The source address to jump from.</param>
+            <param name="target">The target address to jump to.</param>
+            <param name="is64Bit">True if 64 bit, else false.</param>
+            <param name="isRelative">True if the jump is relative, else false.</param>
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.Utilities.FindOrCreateBufferInRange(System.Int32,System.UIntPtr,System.UIntPtr,System.Int32)">
+            <summary>
+            Finds an existing <see cref="T:Reloaded.Memory.Buffers.MemoryBuffer"/> or creates one satisfying the given size.
+            </summary>
+            <param name="size">The required size of buffer.</param>
+            <param name="minimumAddress">Maximum address of the buffer.</param>
+            <param name="maximumAddress">Minimum address of the buffer.</param>
+            <param name="alignment">Required alignment of the item to add to the buffer.</param>
+            <exception cref="T:System.Exception">Unable to find or create a buffer in given range.</exception>
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.Utilities.GetRelativeJumpMinMax(System.UIntPtr,System.IntPtr)">
+            <summary>
+            Gets the minimum and maximum address possible with a relative jump.
+            </summary>
+            <param name="targetAddress">Address we are jumping from.</param>
+            <param name="maxDisplacement">Maximum distance we can jump.</param>
+        </member>
+        <member name="T:Reloaded.Hooks.Tools.VirtualFunctionTable">
+            <summary>
+            Allows for easy storage of data about a virtual function table.
+            </summary>
+        </member>
+        <member name="P:Reloaded.Hooks.Tools.VirtualFunctionTable.TableEntries">
+            <inheritdoc />
+        </member>
+        <member name="P:Reloaded.Hooks.Tools.VirtualFunctionTable.Item(System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.VirtualFunctionTable.FromObject(System.UIntPtr,System.Int32)">
+            <summary>
+            Initiates a virtual function table from an object address in memory.
+            An assumption is made that the virtual function table pointer is the first parameter.
+            </summary>
+            <param name="objectAddress">
+                The memory address at which the object is stored.
+                The function will assume that the first entry is a pointer to the virtual function
+                table, as standard with C++ code.
+            </param>
+            <param name="numberOfMethods">
+                The number of methods contained in the virtual function table.
+                For enumerables, you may obtain this value as such: Enum.GetNames(typeof(MyEnum)).Length; where
+                MyEnum is the name of your enumerable.
+            </param>
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.VirtualFunctionTable.FromAddress(System.UIntPtr,System.Int32)">
+            <summary>
+            Initiates a virtual function table given the address of the first function in memory.
+            </summary>
+            <param name="tableAddress">
+                The memory address of the first entry (function pointer) of the virtual function table.
+            </param>
+            <param name="numberOfMethods">
+                The number of methods contained in the virtual function table.
+                For enumerables, you may obtain this value as such: Enum.GetNames(typeof(MyEnum)).Length; where
+                MyEnum is the name of your enumerable.
+            </param>
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.VirtualFunctionTable.CreateWrapperFunction``1(System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:Reloaded.Hooks.Tools.VirtualFunctionTable.CreateFunctionHook``1(System.Int32,``0)">
+            <inheritdoc />
+        </member>
+        <member name="T:Reloaded.Hooks.X64.ReverseWrapper`1">
+            <summary>
+            Allows for the creation of functions with a custom calling convention which internally call functions using the conventions specified by <typeparamref name="TFunction"/>.
+            </summary>
+        </member>
+        <member name="P:Reloaded.Hooks.X64.ReverseWrapper`1.CSharpFunction">
+            <inheritdoc />
+        </member>
+        <member name="P:Reloaded.Hooks.X64.ReverseWrapper`1.NativeFunctionPtr">
+            <inheritdoc />
+        </member>
+        <member name="P:Reloaded.Hooks.X64.ReverseWrapper`1.WrapperPointer">
+            <inheritdoc />
+        </member>
+        <member name="M:Reloaded.Hooks.X64.ReverseWrapper`1.#ctor(`0)">
+            <summary>
+            Creates a wrapper function with a custom calling convention which calls the supplied function.
+            </summary>
+            <remarks>
+                Please keep a reference to this class as long as you are using it (if <typeparamref name="TFunction"/> is a delegate type).
+                Otherwise Garbage Collection will break the native function pointer to your C# function
+                resulting in a spectacular crash if it is still used anywhere.
+            </remarks>
+            <param name="function">The function to create a pointer to.</param>
+        </member>
+        <member name="M:Reloaded.Hooks.X64.ReverseWrapper`1.#ctor(System.UIntPtr)">
+            <summary>
+            Creates a wrapper function with a custom calling convention which calls the supplied function.
+            </summary>
+            <param name="function">Pointer of native function to wrap.</param>
+        </member>
+        <member name="T:Reloaded.Hooks.X64.Wrapper">
+            <summary>
+            The <see cref="T:Reloaded.Hooks.X64.Wrapper"/> is a marshaller which converts a Microsoft x64 function call
+            to Custom Calling Convention call.
+            This means that you can call Custom Calling Convention functions as if it was a Microsoft x64 function.
+            </summary>
+        </member>
+        <member name="M:Reloaded.Hooks.X64.Wrapper.Create``1(System.UIntPtr)">
+            <summary>
+            Creates a wrapper function which allows you to call a function with a custom calling convention using the calling convention of
+            <typeparamref name="TFunction"/>.
+            </summary>
+            <param name="functionAddress">Address of the function to wrap.</param>
+        </member>
+        <member name="M:Reloaded.Hooks.X64.Wrapper.Create``1(System.UIntPtr,System.UIntPtr@)">
+            <summary>
+            Creates a wrapper function which allows you to call a function with a custom calling convention using the calling convention of
+            <typeparamref name="TFunction"/>.
+            </summary>
+            <param name="functionAddress">Address of the function to wrap.</param>
+            <param name="wrapperAddress">
+                Address of the wrapper used to call the original function.
+                If the source and target calling conventions match, this is the same as <paramref name="functionAddress"/>
+            </param>
+        </member>
+        <member name="M:Reloaded.Hooks.X64.Wrapper.CreatePointer``1(System.UIntPtr,System.UIntPtr@)">
+            <summary>
+            Creates a wrapper function which allows you to call a function with a custom calling convention using the calling convention of
+            <typeparamref name="TFunction"/>.
+            </summary>
+            <param name="functionAddress">Address of the function to wrap.</param>
+            <param name="wrapperAddress">
+                Address of the wrapper used to call the original function.
+                If the original function uses the Microsoft calling convention, it is equal to the function address.
+            </param>
+            <returns>Address of the wrapper in native memory.</returns>
+        </member>
+        <member name="M:Reloaded.Hooks.X64.Wrapper.Create``1(System.UIntPtr,Reloaded.Hooks.Definitions.X64.IFunctionAttribute,Reloaded.Hooks.Definitions.X64.IFunctionAttribute)">
+            <summary>
+            Creates a wrapper converting a call to a source calling convention to a given target calling convention.
+            </summary>
+            <param name="functionAddress">Address of the function in fromConvention to execute.</param>
+            <param name="fromConvention">The calling convention to convert to toConvention. This is the convention of the function (<paramref name="functionAddress"/>) called.</param>
+            <param name="toConvention">The target convention to which convert to fromConvention. This is the convention of the function returned.</param>
+            <returns>Address of the wrapper in memory you can call .</returns>
+        </member>
+        <member name="T:Reloaded.Hooks.X86.ReverseWrapper`1">
+            <summary>
+            Allows for the creation of functions with a custom calling convention which internally call functions using the conventions specified by <typeparamref name="TFunction"/>.
+            </summary>
+        </member>
+        <member name="P:Reloaded.Hooks.X86.ReverseWrapper`1.CSharpFunction">
+            <inheritdoc/>
+        </member>
+        <member name="P:Reloaded.Hooks.X86.ReverseWrapper`1.NativeFunctionPtr">
+            <inheritdoc/>
+        </member>
+        <member name="P:Reloaded.Hooks.X86.ReverseWrapper`1.WrapperPointer">
+            <inheritdoc/>
+        </member>
+        <member name="M:Reloaded.Hooks.X86.ReverseWrapper`1.#ctor(`0)">
+            <summary>
+            Creates a wrapper function with a custom calling convention which calls the supplied function.
+            </summary>
+            <remarks>
+                Please keep a reference to this class as long as you are using it (if <typeparamref name="TFunction"/> is a delegate type).
+                Otherwise Garbage Collection will break the native function pointer to your C# function
+                resulting in a spectacular crash if it is still used anywhere.
+            </remarks>
+            <param name="function">The function to create a pointer to.</param>
+        </member>
+        <member name="M:Reloaded.Hooks.X86.ReverseWrapper`1.#ctor(System.UIntPtr)">
+            <summary>
+            Creates a wrapper function with a custom calling convention which calls the supplied function.
+            </summary>
+            <param name="function">Pointer of native function to wrap.</param>
+        </member>
+        <member name="T:Reloaded.Hooks.X86.Wrapper">
+            <summary>
+            Allows for creating wrapper functions allow you to call functions with custom calling conventions using the calling convention of a given delegate.
+            </summary>
+        </member>
+        <member name="M:Reloaded.Hooks.X86.Wrapper.Create``1(System.UIntPtr)">
+            <summary>
+            Creates a wrapper function which allows you to call a function with a custom calling convention using the calling convention of
+            using the calling convention of <typeparamref name="TFunction"/>.
+            </summary>
+            <param name="functionAddress">Address of the function to reverse wrap..</param>
+        </member>
+        <member name="M:Reloaded.Hooks.X86.Wrapper.Create``1(System.UIntPtr,System.UIntPtr@)">
+            <summary>
+            Creates a wrapper function which allows you to call a function with a custom calling convention using the calling convention of
+            <typeparamref name="TFunction"/>.
+            </summary>
+            <param name="functionAddress">Address of the function to reverse wrap..</param>
+            <param name="wrapperAddress">
+                Address of the wrapper used to call the original function.
+                If the source and target calling conventions match, this is the same as <paramref name="functionAddress"/>
+            </param>
+        </member>
+        <member name="M:Reloaded.Hooks.X86.Wrapper.CreatePointer``1(System.UIntPtr,System.UIntPtr@)">
+            <summary>
+            Creates a wrapper function which allows you to call a function with a custom calling convention using the calling convention of
+            <typeparamref name="TFunction"/>.
+            </summary>
+            <param name="functionAddress">Address of the function to reverse wrap..</param>
+            <param name="wrapperAddress">
+                Address of the wrapper used to call the original function.
+                If the original function is CDECL, the wrapper address equals the function address.
+            </param>
+            <returns>Address of the wrapper in native memory.</returns>
+        </member>
+        <member name="M:Reloaded.Hooks.X86.Wrapper.Create``1(System.UIntPtr,Reloaded.Hooks.Definitions.X86.IFunctionAttribute,Reloaded.Hooks.Definitions.X86.IFunctionAttribute)">
+            <summary>
+            Creates a wrapper function which allows you to call a function with a custom calling convention using the calling convention of
+            <typeparamref name="TFunction"/>.
+            </summary>
+            <param name="functionAddress">The address of the function using <paramref name="fromConvention"/>.</param>
+            <param name="fromConvention">The calling convention to convert to <paramref name="toConvention"/>. This is the convention of the function (<paramref name="functionAddress"/>) called.</param>
+            <param name="toConvention">The target convention to which convert to <paramref name="fromConvention"/>. This is the convention of the function returned.</param>
+            <returns>Address of the wrapper in memory.</returns>
+        </member>
+        <member name="T:VirtualFunctionTableHelpers">
+            <summary>
+            Helper classes for dealing with virtual function tables.
+            </summary>
+        </member>
+        <member name="M:VirtualFunctionTableHelpers.GetAddresses(System.UIntPtr,System.Int32)">
+            <summary>
+            Gets all addresses belonging to a virtual function table.
+            </summary>
+            <param name="tablePointer">Pointer to the virtual table itself.</param>
+            <param name="numberOfMethods">The number of methods stored in the virtual table.</param>
+        </member>
+    </members>
+</doc>
