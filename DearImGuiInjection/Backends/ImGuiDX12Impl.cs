@@ -28,7 +28,7 @@ public static class ImGuiDX12Impl
         public int VertexBufferSize;
     }
 
-    private static Device _device;
+    public static Device _device;
     private static RootSignature pRootSignature;
     private static PipelineState pPipelineState;
     private static Format RTVFormat;

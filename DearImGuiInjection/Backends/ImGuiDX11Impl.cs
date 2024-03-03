@@ -23,7 +23,7 @@ namespace DearImGuiInjection.Backends;
 public static class ImGuiDX11Impl
 {
     private static IntPtr _renderNamePtr;
-    private static Device _device;
+    public static Device _device;
     private static DeviceContext _deviceContext;
     private static ShaderResourceView _fontResourceView;
     private static SamplerState _fontSampler;
